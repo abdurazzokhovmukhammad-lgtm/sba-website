@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SBA — Singular BioArt</title>
+  <style>
+    /* ====== GLOBAL STYLES ====== */
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.8);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    header h1 {
+      font-size: 22px;
+      letter-spacing: 2px;
+      margin: 0;
+    }
+    nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #00f5ff;
+    }
+
+    section {
+      padding: 120px 40px 80px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    section h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    section p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #ddd;
+      text-align: center;
+    }
+
+    /* ====== HERO ====== */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(180deg, #000, #111);
+    }
+    .hero h1 {
+      font-size: 48px;
+      letter-spacing: 3px;
+      margin: 0;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .hero p {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #ccc;
+      max-width: 600px;
+    }
+    .hero button {
+      margin-top: 40px;
+      padding: 12px 28px;
+      font-size: 15px;
+      letter-spacing: 1px;
+      border: 1px solid #fff;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .hero button:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* ====== GALLERY ====== */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .gallery-item {
+      background: #111;
+      border: 1px solid #222;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+    .gallery-item img {
+      width: 100%;
+      border-radius: 6px;
+    }
+    .gallery-item h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+    .gallery-item p {
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    /* ====== MODAL ====== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-content {
+      background: #111;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      text-align: center;
+    }
+    .modal-content img {
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    .modal-content h3 {
+      margin: 10px 0;
+    }
+    .close {
+      position: absolute;
+      top: 20px; right: 30px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    @keyframes fadeIn {
+      from {opacity:0; transform:translateY(20px);}
+      to {opacity:1; transform:translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SBA</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#buy">Buy</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Singular BioArt</h1>
+    <p>Exclusive digital artifacts beyond NFT. Own a piece of elite digital rarity.</p>
+    <button onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Explore Gallery</button>
+  </section>
+
+  <section id="about">
+    <h2>What is an SBA?</h2>
+    <p>
+      SBA (Singular BioArt) represents a new form of digital value. Each SBA is a unique AI-generated artifact designed to embody exclusivity, rarity, and status. Unlike typical NFTs, SBAs are crafted to feel mysterious, premium, and culturally iconic.
+    </p>
+  </section>
+
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery">
+      <div class="gallery-item" onclick="openModal('Artifact #1','A rare glowing fragment','https://picsum.photos/400/250?random=1')">
+        <img src="https://picsum.photos/400/250?random=1" alt="Artifact 1">
+        <h3>Artifact #1</h3>
+        <p>Exclusive Drop</p>
+      </div>
+      <div class="gallery-item" onclick="openModal('Artifact #2','Mystic digital relic','https://picsum.photos/400/250?random=2')">
+        <img src="https://picsum.photos/400/250?random=2" alt="Artifact 2">
+        <h3>Artifact #2</h3>
+        <p>Exclusive Drop</p>
+      </div>
+      <div class="gallery-item" onclick="openModal('Artifact #3','Elite collectible','https://picsum.photos/400/250?random=3')">
+        <img src="https://picsum.photos/400/250?random=3" alt="Artifact 3">
+        <h3>Artifact #3</h3>
+        <p>Exclusive Drop</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="buy">
+    <h2>Buy Your SBA</h2>
+    <p>Each artifact starts from $100. Limited availability.</p>
+    <p><a href="https://t.me/sbaOfficial_bot" target="_blank" style="color:#00f5ff;">→ Purchase via Official SBA Bot</a></p>
+  </section>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+      <img id="modal-img" src="" alt="">
+      <h3 id="modal-title"></h3>
+      <p id="modal-desc"></p>
+    </div>
+  </div>
+
+  <script>
+    function openModal(title, desc, img) {
+      document.getElementById("modal-title").innerText = title;
+      document.getElementById("modal-desc").innerText = desc;
+      document.getElementById("modal-img").src = img;
+      document.getElementById("modal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
