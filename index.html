@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SBA — Singular BioArt</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Small local CSS so you don't have to add many files.
+   You may later move to styles.css if you prefer. */
+:root{
+  --bg:#0b0b0b; --fg:#ffffff; --accent:#7b0e1f; --muted:#bbb;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+body{background:linear-gradient(180deg,#070707 0%, #0f0f0f 100%);color:var(--fg);overflow-x:hidden}
+.header{
+  position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;padding:0 20px;z-index:40;
+  backdrop-filter: blur(6px);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:48px;width:48px;object-fit:contain}
+.brand h1{font-size:20px;margin:0;font-weight:700;letter-spacing:3px}
+.nav{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{background:#fff;color:#000;padding:10px 14px;border-radius:8px;font-weight:600;text-decoration:none}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.06);color:var(--fg)}
+
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 20px 60px;
+  position:relative;flex-direction:column;text-align:center;
+}
+.splash{
+  position:relative;width:820px;max-width:92%;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;
+}
+.solar {
+  width:720px;max-width:88%;height:420px;background:radial-gradient(circle at center,#1a0f0f 0%, rgba(0,0,0,0) 60%);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+  box-shadow:0 10px 50px rgba(0,0,0,.6), inset 0 0 120px rgba(123,14,31,.06);
+}
+.center-sun{position:absolute;width:28px;height:28px;background:radial-gradient(circle,#ffdba5 0,#ff8d5a 50%, #ff5f2b 100%);border-radius:50%;z-index:4;box-shadow:0 0 30px #ff8d5a}
+.orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;opacity:.25;border:1px solid rgba(255,255,255,.04)}
+/* four demo orbits */
+.orbit.o1{width:120px;height:120px} .orbit.o2{width:200px;height:200px} .orbit.o3{width:300px;height:300px} .orbit.o4{width:420px;height:420px}
+.planet{position:absolute;border-radius:50%;width:18px;height:18px;background:#96d;box-shadow:0 0 10px rgba(150,100,255,.35)}
+.p1{background:#e9a; animation:spin1 12s linear infinite}
+.p2{background:#64c; animation:spin2 18s linear infinite}
+.p3{background:#f09; animation:spin3 24s linear infinite}
+.p4{background:#32c; animation:spin4 36s linear infinite}
+@keyframes spin1{from{transform:translate(-50%,-50%) rotate(0) translateX(60px)} to{transform:translate(-50%,-50%) rotate(360deg) translateX(60px)}}
+@keyframes spin2{from{transform:translate(-50%,-50%) rotate(0) translateX(100px)} to{transform:translate(-50%,-50%) rotate(360deg) translateX(100px)}}
+@keyframes spin3{from{transform:translate(-50%,-50%) rotate(0) translateX(150px)} to{transform:translate(-50%,-50%) rotate(360deg) translateX(150px)}}
+@keyframes spin4{from{transform:translate(-50%,-50%) rotate(0) translateX(210px)} to{transform:translate(-50%,-50%) rotate(360deg) translateX(210px)}}
+
+.banner{
+  margin-top:18px;background:linear-gradient(90deg,var(--accent),#3a0b11);padding:18px;border-radius:12px;display:flex;align-items:center;gap:18px;justify-content:center;
+  color:#fff;box-shadow:0 8px 40px rgba(123,14,31,.18);
+}
+.banner h2{margin:0;font-size:20px;letter-spacing:4px;font-weight:700}
+.banner .rotate{font-weight:800;padding-left:10px}
+.footer{padding:40px 20px;background:transparent;display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+.footer .socials a{color:var(--muted);text-decoration:none;margin-right:10px}
+.footer .policies a{color:var(--muted);text-decoration:none;margin-left:10px}
+
+/* intro animation elements (logo center) */
+.centerIntro{position:fixed;z-index:60;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:16px}
+.centerIntro img{width:180px;height:180px;object-fit:contain;filter:drop-shadow(0 30px 80px rgba(0,0,0,.8))}
+.centerIntro .ba{color:var(--fg);font-size:76px;font-weight:800;opacity:0;transform:translateX(20px);}
+
+.hidden{display:none}
+@media (max-width:820px){ .solar{height:340px} .centerIntro img{width:140px;height:140px} .centerIntro .ba{font-size:56px} }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <a href="index.html"><img src="assets/logo.png" alt="SBA logo"></a>
+      <div>
+        <h1>SBA<span style="font-weight:400; font-size:12px; margin-left:8px"> — Singular BioArt</span></h1>
+      </div>
+    </div>
+
+    <div class="nav">
+      <a class="btn ghost" href="what-is-sba.html">What is SBA</a>
+      <a class="btn ghost" href="gallery.html">Gallery</a>
+      <a class="btn" href="https://t.me/sbaOfficial_bot" target="_blank">Create SBA</a>
+      <a class="btn ghost" href="https://t.me/sbaOfficial_bot" target="_blank">Verify Authenticity</a>
+    </div>
+  </div>
+
+  <!-- intro center animation -->
+  <div id="intro" class="centerIntro" aria-hidden="true">
+    <img src="assets/logo.png" id="introLogo" alt="SBA logo">
+    <div class="ba" id="introBA">BA</div>
+  </div>
+
+  <main class="hero">
+    <div class="splash">
+      <div class="solar" id="solar">
+        <div class="center-sun"></div>
+        <div class="orbit o4"></div>
+        <div class="orbit o3"></div>
+        <div class="orbit o2"></div>
+        <div class="orbit o1"></div>
+
+        <div class="planet p4" style="left:50%;top:10%"></div>
+        <div class="planet p3" style="left:50%;top:50%"></div>
+        <div class="planet p2" style="left:50%;top:70%"></div>
+        <div class="planet p1" style="left:50%;top:20%"></div>
+      </div>
+
+      <div class="banner">
+        <h2>SBA / <span class="rotate">ART</span></h2>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="socials">
+      <a href="https://www.instagram.com/sba.artifact" target="_blank">Instagram</a>
+      <a href="https://t.me/officialSBA" target="_blank">Telegram</a>
+      <a href="https://www.youtube.com/@sba.artifact" target="_blank">YouTube</a>
+    </div>
+    <div class="policies">
+      <a href="privacy.html">Privacy Policy</a> • <a href="disclaimer.html">Disclaimer</a>
+    </div>
+  </footer>
+
+<script>
+/* Intro animation timeline (simple) */
+(function(){
+  const intro = document.getElementById('intro');
+  const logo = document.getElementById('introLogo');
+  const ba   = document.getElementById('introBA');
+
+  // show intro then animate
+  setTimeout(()=> {
+    intro.style.opacity = 1;
+    // BA in
+    ba.style.transition = 'opacity .9s ease, transform 1s cubic-bezier(.2,.8,.2,1)';
+    ba.style.opacity = 1;
+    ba.style.transform = 'translateX(0)';
+
+    // after short delay slide logo left and hide BA; then move logo to top-left
+    setTimeout(()=> {
+      ba.style.opacity = 0;
+      // animate logo moving to top-left (simulate)
+      logo.style.transition = 'transform 1s ease, width 1s ease, height 1s ease';
+      logo.style.transform = 'translate(-400px,-220px) scale(.28)';
+      // after transition complete, remove intro and show header elements (they're already visible)
+      setTimeout(()=> {
+        intro.classList.add('hidden');
+      },1100);
+    },1400);
+  },350);
+})();
+</script>
+</body>
+</html>

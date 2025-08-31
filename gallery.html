@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SBA Gallery — Market</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+body{background:#050505;color:#fff;font-family:Inter,Arial;margin:0;padding:84px 18px}
+.headerNav{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;padding:0 20px;z-index:50;background:rgba(0,0,0,.25);backdrop-filter: blur(6px)}
+.headerNav img{height:44px}
+.headerNav .search{margin-left:20px;flex:1;display:flex}
+.search input{flex:1;padding:10px 12px;border-radius:10px;border:0;background:#111;color:#fff}
+.grid{max-width:1100px;margin:100px auto 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.card{background:linear-gradient(180deg,#0f0f0f,#0b0b0b);padding:12px;border-radius:12px}
+.thumb{height:180px;border-radius:8px;overflow:hidden;background:#111;display:flex;align-items:center;justify-content:center}
+.thumb img{max-width:100%;max-height:100%}
+.price{margin-top:8px;font-weight:700}
+.sold{color:#aaa;font-size:13px}
+.topTag{position:absolute;right:12px;top:12px;background:rgba(0,0,0,.5);padding:6px 8px;border-radius:6px;font-weight:700}
+.modalWrap{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:80}
+.modal{background:#0b0b0b;padding:20px;border-radius:12px;max-width:920px;width:95%;display:flex;gap:18px}
+.modal img{max-width:480px;border-radius:8px}
+.modal .meta{flex:1}
+.buyBtn{background:#0db954;color:#051012;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+  <div class="headerNav">
+    <a href="index.html"><img src="assets/logo.png" alt="SBA"></a>
+    <div class="search">
+      <input id="search" placeholder="Search SBA with its Unique ID (e.g. 43)"/>
+    </div>
+    <div style="margin-left:12px">
+      <a class="btn" href="index.html">Home</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="grid" id="list">
+      <!-- cards inserted here -->
+    </section>
+  </main>
+
+  <div class="modalWrap" id="modal">
+    <div class="modal" role="dialog">
+      <img id="mimg" src="" alt="artifact">
+      <div class="meta">
+        <h3 id="mid">SBA #</h3>
+        <p id="mdesc" style="color:#ddd"></p>
+        <p style="margin-top:14px"><strong>Price:</strong> <span id="mprice"></span></p>
+        <p style="margin-top:12px"><a id="buyLink" class="buyBtn" href="#" target="_blank">Buy / Open in Bot</a></p>
+        <p style="font-size:12px;color:#aaa;margin-top:10px">Creator info is recorded in the SBA registry.</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1iWXKluhuAVKy1UNPwxWy5mzqN0ghRqfa63Wlztz2LaI/gviz/tq?tqx=out:csv&sheet=Artifacts";
+
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  const headers = lines.shift().split(',');
+  return lines.map(line=>{
+    const cells = line.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(c=>c.replace(/^"|"$/g,''));
+    const obj = {};
+    headers.forEach((h,i)=> obj[h.trim()] = cells[i] ? cells[i].trim() : '');
+    return obj;
+  });
+}
+
+async function loadArtifacts(){
+  try{
+    const res = await fetch(SHEET_CSV_URL);
+    if(!res.ok) throw new Error('sheet fetch failed: '+res.status);
+    const text = await res.text();
+    const items = parseCSV(text);
+    render(items);
+  }catch(err){
+    console.error(err);
+    document.getElementById('list').innerHTML = '<div style="color:#777">Failed to load gallery. Make sure the Google Sheet is published (File → Publish to the web) and the SHEET_CSV_URL is correct.</div>';
+  }
+}
+
+function render(items){
+  const wrap = document.getElementById('list');
+  const filtered = items.filter(it=>{
+    // check status sells
+    return (it['Status'] || it['status'] || '').toLowerCase().includes('sell') || (it['Status'] || '').toLowerCase().includes('selling');
+  });
+  if(!filtered.length){
+    wrap.innerHTML = '<div style="color:#777">No items for sale (Status must include "Selling")</div>';
+    return;
+  }
+  wrap.innerHTML = filtered.map(it=>{
+    const img = (it['Image URL']||it['Image']||it['ImageURL']) || 'assets/logo.png';
+    const id  = it['SBA ID'] || it['ID'] || '';
+    const price = it['Price'] || '—';
+    const desc = (it['Description'] || '').slice(0,120);
+    return `<div class="card">
+      <div style="position:relative">
+        <div class="topTag">${id}</div>
+        <div class="thumb"><img src="${img}" alt="sba"></div>
+      </div>
+      <div class="price">${price}</div>
+      <div class="sold">${desc}</div>
+      <div style="margin-top:8px"><a href="#" data-id="${id}" data-img="${img}" data-price="${price}" data-desc="${it['Description']||''}" class="open">Details</a></div>
+    </div>`;
+  }).join('');
+  // attach handlers
+  document.querySelectorAll('.open').forEach(a=>{
+    a.addEventListener('click',ev=>{
+      ev.preventDefault();
+      const id = a.dataset.id, img=a.dataset.img, price=a.dataset.price, desc=a.dataset.desc;
+      showModal({id,img,price,desc});
+    });
+  });
+}
+
+function showModal(obj){
+  document.getElementById('mimg').src = obj.img;
+  document.getElementById('mid').textContent = 'SBA #' + obj.id;
+  document.getElementById('mdesc').textContent = obj.desc;
+  document.getElementById('mprice').textContent = obj.price;
+  // buy link opens Telegram bot with message or to bot
+  document.getElementById('buyLink').href = 'https://t.me/sbaOfficial_bot?start=purchase_' + encodeURIComponent(obj.id);
+  document.getElementById('modal').style.display = 'flex';
+}
+
+document.getElementById('modal').addEventListener('click',e=>{
+  if(e.target === e.currentTarget) e.currentTarget.style.display='none';
+});
+
+// search by ID:
+document.getElementById('search').addEventListener('input',ev=>{
+  const q = ev.target.value.trim();
+  if(!q){ loadArtifacts(); return; }
+  // Filter client side: reload all then filter
+  (async ()=>{
+    try{
+      const res = await fetch(SHEET_CSV_URL);
+      const text = await res.text();
+      const items = parseCSV(text);
+      const filtered = items.filter(it => (it['SBA ID'] || '').toLowerCase().includes(q.toLowerCase()));
+      render(filtered);
+    }catch(e){ console.error(e) }
+  })();
+});
+
+loadArtifacts();
+</script>
+</body>
+</html>
