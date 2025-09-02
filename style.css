@@ -1,0 +1,602 @@
+:root {
+    --primary-color: #000000;
+    --secondary-color: #ffffff;
+    --accent-color: #FFD700;
+    --text-color: #cccccc;
+}
+
+body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 1s ease-in-out;
+}
+
+#s-logo-container {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+#s-logo {
+    width: 250px;
+    height: auto;
+}
+
+#ba-text-container {
+    position: absolute;
+    right: 50%;
+    transform: translateX(100px);
+    opacity: 0;
+}
+
+#ba-text {
+    font-size: 8rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+/* Header */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    transition: transform 0.5s ease-in-out;
+}
+
+#main-header.hidden {
+    transform: translateY(-100%);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-logo {
+    height: 30px;
+}
+
+.header-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--secondary-color);
+}
+
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 25px;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease-in-out;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Pages */
+.page {
+    min-height: 100vh;
+    padding: 100px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.page.hidden {
+    display: none;
+}
+
+/* Home Page */
+#home-page {
+    background-color: #000;
+    overflow: hidden;
+    padding-top: 150px;
+}
+
+#search-container {
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 600px;
+    z-index: 10;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+#search-input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 50px;
+    border: 2px solid var(--text-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#search-input:focus {
+    border-color: var(--accent-color);
+}
+
+/* Solar System Animation */
+#solar-system {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.1;
+}
+
+.sun {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: #FFD700;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 50px 10px var(--accent-color);
+}
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    background-color: #8c8c8c;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+}
+
+.planet1 {
+    width: 10px;
+    height: 10px;
+    animation: orbit1 10s linear infinite;
+}
+
+.planet2 {
+    width: 15px;
+    height: 15px;
+    animation: orbit2 15s linear infinite;
+}
+
+.planet3 {
+    width: 20px;
+    height: 20px;
+    animation: orbit3 20s linear infinite;
+}
+
+.planet4 {
+    width: 25px;
+    height: 25px;
+    animation: orbit4 25s linear infinite;
+}
+
+@keyframes orbit1 {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(150px);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(150px);
+    }
+}
+
+@keyframes orbit2 {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(250px);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(250px);
+    }
+}
+
+@keyframes orbit3 {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(350px);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(350px);
+    }
+}
+
+@keyframes orbit4 {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(450px);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(450px);
+    }
+}
+
+#dynamic-text {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 100px;
+    z-index: 10;
+}
+
+/* Sold Artifacts Section */
+#sold-artifacts-section {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 150px;
+    z-index: 10;
+    text-align: center;
+}
+
+#sold-artifacts-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: var(--secondary-color);
+    position: relative;
+    display: inline-block;
+}
+
+#sold-artifacts-section h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -15px;
+    width: 80px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+#sold-artifacts-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.sold-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    max-width: 350px;
+    flex: 1 1 300px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.sold-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sold-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.sold-card .sale-date {
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-bottom: 5px;
+}
+
+.sold-card .sale-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #111;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 800px;
+    position: relative;
+    display: flex;
+    gap: 30px;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-button:hover {
+    color: var(--accent-color);
+}
+
+#modal-details img {
+    width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+#modal-details .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+#modal-details h3 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+#modal-details p {
+    margin-bottom: 10px;
+}
+
+#modal-details .buy-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#modal-details .buy-btn:hover {
+    background-color: #e5c100;
+}
+
+/* Gallery Page */
+#gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 50px;
+}
+
+.gallery-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gallery-details {
+    padding: 15px;
+    text-align: left;
+}
+
+.gallery-details h3 {
+    font-size: 1.2rem;
+    margin: 0 0 5px 0;
+    color: var(--secondary-color);
+}
+
+.gallery-details p {
+    margin: 0;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* What is SBA? Page */
+.text-content {
+    max-width: 800px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+.text-content h2 {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.text-content p, .text-content li {
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.text-content ul, .text-content ol {
+    padding-left: 20px;
+}
+
+.text-content li {
+    margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+    padding: 30px 50px;
+    background-color: #000;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-right: 20px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+.social-links a {
+    margin-left: 20px;
+    transition: transform 0.3s;
+    display: inline-block;
+}
+
+.social-links a img {
+    height: 25px;
+    width: auto;
+}
+
+.social-links a:hover {
+    transform: scale(1.1);
+}
+
+.support-btn {
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #main-header {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    nav {
+        margin-top: 15px;
+    }
+
+    nav a {
+        margin: 0 10px;
+    }
+
+    .page {
+        padding: 100px 20px;
+    }
+
+    #home-page {
+        padding-top: 120px;
+    }
+    
+    #search-container {
+        max-width: 90%;
+    }
+
+    #sold-artifacts-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sold-card {
+        max-width: 90%;
+    }
+
+    .modal-content {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    #modal-details img {
+        width: 100%;
+    }
+
+    .gallery-details {
+        text-align: center;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-links a {
+        display: block;
+        margin: 10px 0;
+    }
+}
